@@ -1,0 +1,79 @@
+body {
+  width: 99%;
+}
+
+.ui-widget {
+  margin-top: 1%;
+}
+
+#recherche_part {
+  margin-top: 2%;
+  margin-bottom: 5%;
+  width: 100%;
+  border-radius: 10px;
+  padding: 0.5%;
+}
+
+.liste_part {
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: lightgrey;
+  border: 2px solid black;
+  margin-bottom: 1%;
+  padding: 1%;
+  border-radius: 5px;
+}
+
+.resultat_part {
+  padding: 20% !important;
+}
+
+.part_actif,
+.part_non_actif {
+  display: inline-block;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  padding: 1%;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.part_actif {
+  background-color: green;
+}
+.part_non_actif {
+  background-color: darkred;
+}
+
+.infos_part {
+  display: inline-block;
+  height: 100%;
+  width: 70%;
+}
+
+.lien {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 2%;
+  padding-right: 2%;
+  border-radius: 20px;
+  background-color: gray;
+}
+
+.lien:hover {
+  background-color: black;
+}
+
+a:link {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  color: white;
+}

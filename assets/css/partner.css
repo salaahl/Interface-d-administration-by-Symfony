@@ -1,0 +1,139 @@
+.body {
+  grid-template-columns: [colonneUne] 1fr [colonneDeux] 1fr[colonneTrois] 1fr [laDer];
+  grid-template-rows: [ligneUne] 2fr [ligneDeux] 1fr [ligneTrois] 2fr [laDer];
+  margin-left: -0, 5%;
+  flex-wrap: wrap;
+}
+
+.en_tete {
+  grid-row-start: ligneUne;
+  grid-column-start: colonneUne;
+  grid-column-end: colonneTrois;
+  grid-template-columns: [colonneUne] 2fr [colonneDeux] 1fr [laDer];
+  grid-template-rows: [ligneUne] 1fr [ligneDeux] 1fr [ligneTrois] 1fr [laDer];
+}
+
+/* structures */
+.label_structures {
+  grid-row-start: ligneDeux;
+  grid-column-start: colonneDeux;
+}
+
+#structures {
+  grid-row-start: ligneTrois;
+}
+
+.permissions {
+  grid-row-start: ligneUne;
+  grid-column-start: colonneTrois;
+  grid-column-end: laDer;
+}
+
+
+/* CSS global */
+body {
+  width: 99%;
+  margin: 0%;
+}
+
+.body {
+  display: grid;
+  padding: 1%;
+}
+
+.en_tete {
+  display: grid;
+  margin-right: 2%;
+  border-radius: 20px;
+  padding: 1%;
+  background-color: lightgrey;
+}
+
+.statut_partenaire {
+  grid-row-start: ligneTrois;
+}
+
+.delete-partner {
+  grid-row-start: laDer;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.statut_partenaire {
+  grid-column-start: colonneUne;
+  grid-column-end: LaDer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 20px;
+  padding: 1%;
+  background-color: darkgray;
+}
+
+#nom_part {
+  grid-row-start: ligneUne;
+  grid-column-start: colonneUne;
+  grid-column-end: LaDer;
+}
+
+#mail {
+  grid-row-start: ligneDeux;
+  grid-column-start: colonneUne;
+  grid-column-end: LaDer;
+
+  margin-top: -5%;
+}
+
+.structure {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 70%;
+  padding: 10%;
+  margin: 10%;
+  border-radius: 30px;
+  border: 2px solid gray;
+  background-color: lightgrey;
+}
+
+.structure:hover {
+  background-color: gray;
+}
+
+.label_structures {
+  display: flex;
+  margin-top: 5%;
+  padding: 10%;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid gray;
+  border-radius: 50px;
+}
+
+#structures {
+  grid-column-start: colonneUne;
+  grid-column-end: LaDer;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
+.permissions {
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+  border-radius: 20px;
+  background-color: gray;
+  justify-content: space-evenly;
+}
+
+.permissions > h6 {
+  grid-row: 1;
+}
+
+.permissions > .form-switch {
+  grid-row: 2;
+}

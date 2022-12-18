@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une structure{% endblock %}
+
+{% block body %}
+{% apply inline_css(source('@css/create_user.css')) %}
+
+  <div class="container">
+    <form method="POST">
+
+      <h2 class="formTitle">
+        Ajouter une nouvelle structure :
+      </h2>
+
+      <div class="inputDiv">
+        <label class="inputLabel">Partenaire affilié :</label>
+        <select id="partenaire" class="form-select" name="partenaire" required>
+          <option selected disabled>Ville</option>
+          {% for partner in partners %}
+          <option>{{partner.nom}}</option>
+          {%endfor%}
+        </select>
+      </div>
+
+      <div class="inputDiv">
+        <label class="inputLabel">Adresse de la structure :</label>
+        {{ form_widget(form.adresse) }}
+      </div>
+
+      <div class="inputDiv">
+        <label class="inputLabel">Entrez un mail :</label>
+        {{ form_widget(form.mail) }}
+      </div>
+
+      <div class="inputDiv">
+        <label class="inputLabel">Entrez un mot de passe :</label>
+        {{ form_widget(form.mot_de_passe) }}
+      </div>
+
+      <button type="submit" class="btn btn-dark">Valider</button>
+    </form>
+  </div>
+{% endapply %}
+{% endblock %}

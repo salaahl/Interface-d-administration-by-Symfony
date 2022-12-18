@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Page structure
+{% endblock %}
+
+{% block body %}
+{% apply inline_css(
+    source('@css/structure.css'),
+    source('@css/sidebar.css'),
+    source('@css/button_statut.css'))
+%}
+    <div class="row">
+    <div class="col-4 col-md-4 col-lg-3" id="sidebar">
+      {% include('_sidebar.html.twig') %}
+    </div>
+    <div class="body col-8 col-md-8 col-lg-9 pt-2 px-5">
+    {% if is_granted('ROLE_PARTNER') %}
+      <a href="../{{ mailPartner }}" id="retour_page_partenaire">
+        <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+          <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+        </svg>
+      </a>
+    {% endif %}
+      <div class="en_tete">
+        <div id="nom_structure">
+          <h1 id="nom_partenaire" class="display-6">Structure du partenaire : {{ mailPartner }}</h1>
+        </div>
+        <div id="mail_structure">Mail : {{ mail }}</div>
+        <div id="adresse_structure">Adresse : {{ address }}</div>
+        {% if is_granted('ROLE_ADMIN') %}
+          <div class="statut-structure">
+            <label for="">Structure active : </label>
+              <div class="form-check form-switch">
+                <input id="statut_structure" 
+                class="form-check-input toggle" 
+                type="checkbox" role="switch" 
+                {{ rightsLevel == 2 ? 'checked' : '' }}/>
+            </div>
+          </div>
+          <div class="delete-structure">
+            <form method="POST">
+              <input type="hidden" name="delete_structure" value="{{ mail }}" />
+              <button class="btn btn-danger" 
+              type="submit" 
+              onclick="return confirm(
+                'Etes-vous sûr ? Cette action est irréversible.'
+              )">
+              Supprimer cette structure
+              </button>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Permissions -->
+      <div class="permissions">
+        <h6>Permissions de la structure : </h6>
+        <!-- Switch 1 -->
+        <div class="form-check form-switch">
+          <input class="form-check-input toggle" type="checkbox" role="switch" id="perm_boissons" {{ permDrinks == 1 ? 'checked' : '' }} />
+          <label class="form-check-label" for="toggle_boissons">Vente de boissons</label>
+        </div>
+        <!-- Switch 2 -->
+        <div class="form-check form-switch">
+          <input class="form-check-input toggle" type="checkbox" role="switch" id="perm_newsletter" {{ permNewsletter == 1 ? 'checked' : '' }} />
+          <label class="form-check-label" for="toggle_newsletter">Envoyer une newsletter</label>
+        </div>
+        <!-- Switch 3 -->
+        <div class="form-check form-switch">
+          <input class="form-check-input toggle" type="checkbox" role="switch" id="perm_planning" {{ permPlanning == 1 ? 'checked' : '' }} />
+          <label class="form-check-label" for="toggle_planning">Gérer le planning d'une équipe</label>
+        </div>
+      </div>
+    </div>
+{% endapply %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/permissions.js') }}"></script>
+{% endblock %}

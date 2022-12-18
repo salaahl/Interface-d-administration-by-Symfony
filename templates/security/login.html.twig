@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+{% apply inline_css(source('@css/login.css')) %}
+    <div class="conteneur">
+      <section class="section">
+        <div class="sous_section">
+          <div
+            class="row d-flex justify-content-center align-items-center h-100"
+          >
+            <div class="logo col-md-9 col-lg-5 col-xl-5">
+              <img
+                src="./src/logo.jpg"
+                style="border-image: auto"
+                class="img-fluid"
+                alt="Sample image"
+              />
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-6 offset-xl-1">
+              <!-- Formulaire -->
+              <form method="POST">
+                <div class="">
+                  <p class="fw-bold">
+                    Bienvenue sur FitnessP pour les franchisés,
+                  </p>
+                  {% if app.user %}
+                  <p>
+                      Vous êtes déjà connecté : {{ app.user.userIdentifier }}
+                      <br><a href="{{ path('app_logout') }}">Se déconnecter ?</a>
+                  </p>
+                  {% else %}
+                  <p>Identifiez-vous :</p>
+                  {% endif %}
+                </div>
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="mail">Mail</label>
+                  <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                  {% for flash_error in app.flashes('verify_email_error') %}
+                    <label class="id_incorrects" style="color: red">{{ flash_error }}</label>
+                  {% endfor %}
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-3">
+                  <label class="form-label" for="mdp">Mot de passe</label>
+                  <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <a href="#!" class="text-body">Forgot password?</a>
+                </div>
+
+                <input type="hidden" name="_csrf_token"
+                value="{{ csrf_token('authenticate') }}"
+                >
+
+                <div class="text-center text-lg-start mt-4 pt-2">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-lg"
+                    style="padding-left: 2.5rem; padding-right: 2.5rem"
+                  >
+                    Login
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div
+        class="footer d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary d-flex absolute-bottom"
+      >
+        <!-- Copyright -->
+        <div class="text-white mb-3 mb-md-0">
+          Copyright © 2022. All rights reserved.
+        </div>
+        <!-- Copyright -->
+      </div>
+    </div>
+{% endapply %}
+{% endblock %}

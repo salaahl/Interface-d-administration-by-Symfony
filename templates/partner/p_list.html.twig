@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Liste des partenaires
+{% endblock %}
+
+{% block body %}
+{% apply inline_css(source('@css/partners.css'), source('@css/sidebar.css')) %}
+    <div class="row">
+        <div class="col-4 col-md-4 col-lg-3" id="sidebar">
+            {% include('_sidebar.html.twig') %}
+        </div>
+        <main class="col-8 col-md-8 col-lg-9 pt-2 px-5 pt-2 px-5">
+        <div id="en_tete">
+            <h1 class="display-6">Liste de mes partenaires :</h1>
+            <!-- Switch des actifs -->
+            <div class="switch_des_actifs form-check form-switch">
+            <input class="form-check-input toggle" type="checkbox" id="active-only" role="switch" id="statut_du_partenaire" />
+            <label class="form-check-label" for="statut_du_partenaire">Actifs uniquement</label>
+            </div>
+        </div>
+        <div class="ajouter_partenaire">
+            <a href="../user/create/partner">
+            Ajouter un nouveau partenaire
+            </a>
+        </div>
+        <div id="liste_part">
+        {% set c = 0 %}
+        <!-- Le for va tourner autant de fois qu'il y a de villes -->
+        {% for count in partners['city'] %}
+            {% if partners['rights_level'][c] == 2 %}
+                {% set statutClass = 'part_actif px-2' %}
+                {% set statutText = 'Partenaire activé' %}
+            {% else %}
+                {% set statutClass = 'part_non_actif px-2' %}
+                {% set statutText = 'Partenaire désactivé' %}
+            {%endif%}
+        <div class="liste_part col-12 col-xl-5">
+            <div class="infos_part">
+                <div>{{partners['city'][c]}}</div>
+                <div>{{partners['mail'][c]}}</div>
+                <div>Nombre de structures : {{partners['number_structures'][c]}}</div>
+                <div class="{{statutClass}}">{{statutText}}</div>
+            </div>
+            <div class="lien">
+                <a href="./{{partners['mail'][c]}}">Détails</a>
+            </div>
+        </div>
+        {% set c = c + 1 %}
+        {%endfor%}
+        </div>
+        </main>
+    </div>
+{% endapply %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/active_partners.js') }}"></script>
+{% endblock %}

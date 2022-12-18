@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un administrateur{% endblock %}
+
+{% block body %}
+{% apply inline_css(source('@css/create_user.css')) %}
+  <div class="container">
+      <form method="POST">
+        <h2 class="formTitle">Ajouter un nouvel administrateur :</h2>
+
+        <div class="inputDiv">
+          <label class="inputLabel">Entrez votre mail :</label>
+          {{ form_widget(form.mail) }}
+        </div>
+
+        <div class="inputDiv">
+          <label class="inputLabel">Entrez votre mot de passe :</label>
+          <label id="niveau_mot_de_passe" style="color: red"></label>
+          {{ form_widget(form.mot_de_passe) }}
+        </div>
+
+        <div class="inputDiv">
+          <label class="inputLabel">Confirmez votre mot de passe :</label>
+          <input type="password" id="confirmer_mot_de_passe" required />
+        </div>
+
+        <button type="submit" class="btn btn-dark">Valider</button>
+      </form>
+    </div>
+{% endapply %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/nbp.min.js') }}"></script>
+    <script src="{{ asset('js/common_passwords.js') }}"></script>
+    <script src="{{ asset('js/confirm_password.js') }}"></script>
+{% endblock %}

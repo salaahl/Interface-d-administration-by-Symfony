@@ -1,0 +1,99 @@
+#retour_page_partenaire {
+  left: 27%;
+}
+
+body {
+  width: 99%;
+  height: 99%;
+  margin: 0%;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1%;
+  margin-left: -0, 5%;
+}
+
+#retour_page_partenaire {
+  position: fixed;
+  top: 3%;
+}
+
+.en_tete {
+  display: grid;
+  grid-template-columns: [colonneUne] 2fr [colonneDeux] 1fr [laDer];
+  grid-template-rows: [ligneUne] 1fr [ligneDeux] 1fr [ligneTrois] 1fr [ligneQuatre] 1fr[laDer];
+
+  min-height: 40%;
+  width: 80%;
+  border-radius: 20px;
+  padding: 1%;
+  background-color: lightgrey;
+  margin-bottom: 2%;
+}
+
+#nom_structure {
+  grid-row-start: ligneUne;
+  grid-column-start: colonneUne;
+  grid-column-end: LaDer;
+}
+
+#mail {
+  grid-row-start: ligneDeux;
+  grid-column-start: colonneUne;
+  grid-column-end: LaDer;
+
+  margin-top: -5%;
+}
+
+#adresse_structure {
+  grid-row-start: ligneTrois;
+  grid-column-start: colonneUne;
+  grid-column-end: LaDer;
+
+  margin-top: -5%;
+}
+
+.statut-structure {
+  grid-row-start: ligneQuatre;
+  grid-column-start: colonneUne;
+  grid-column-end: LaDer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 20px;
+  padding: 1%;
+  background-color: darkgray;
+}
+
+.delete-structure {
+  grid-row-start: laDer;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.permissions {
+  display: flex;
+  flex-direction: column;
+
+  height: 40%;
+  width: 80%;
+  padding: 5%;
+  border-radius: 20px;
+  background-color: gray;
+  justify-content: space-evenly;
+}
+
+.permissions > h6 {
+  grid-row: 1;
+}
+
+.permissions > .form-switch {
+  grid-row: 2;
+}
