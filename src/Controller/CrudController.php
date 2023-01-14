@@ -80,7 +80,7 @@ class CrudController extends AbstractController
         $reponse['rights_level'] = $rights_level;
         $reponse['number_structures'] = $number_structures;
 
-        return new Response(var_dump($partnersFound));
+        return new Response(var_dump($_SERVER["SERVER_NAME"]));
     }
 
     /**

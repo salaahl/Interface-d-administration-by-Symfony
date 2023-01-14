@@ -17,9 +17,17 @@ window.onload = function () {
         } else if (NBP.isCommonPassword(pwd) || pwd.length < 5) {
           status_msg.innerHTML = "Faible";
           status_msg.style.color = "red";
+          a.setCustomValidity(
+            "Mot de passe faible. Veuillez le changer."
+          );
+          return false;
         } else {
           status_msg.innerHTML = "Ok";
           status_msg.style.color = "green";
+          a.setCustomValidity(
+            ""
+          );
+          return true;
         }
       });
   } 
@@ -34,9 +42,17 @@ window.onload = function () {
       } else if (NBP.isCommonPassword(pwd) || pwd.length < 5) {
         status_msg.innerHTML = "Faible";
         status_msg.style.color = "red";
+        b.setCustomValidity(
+          "Mot de passe faible. Veuillez le changer."
+        );
+        return false;
       } else {
         status_msg.innerHTML = "Ok";
         status_msg.style.color = "green";
+        b.setCustomValidity(
+          ""
+        );
+        return true;
       }
     });
   }

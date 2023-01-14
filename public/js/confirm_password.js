@@ -29,6 +29,4 @@ function validerMotDePasse() {
     }
 }
 
-partnerPwd.onchange = validerMotDePasse;
-structurePwd.onchange = validerMotDePasse;
 confirmPwd.onkeyup = validerMotDePasse;
