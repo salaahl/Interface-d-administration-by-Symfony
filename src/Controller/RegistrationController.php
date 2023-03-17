@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\FitnesspAdmin;
-use App\Entity\FitnesspPartenaire;
-use App\Entity\FitnesspStructure;
-use App\Repository\FitnesspAdminRepository;
-use App\Repository\FitnesspPartenaireRepository;
-use App\Repository\FitnesspStructureRepository;
+use App\Entity\Admin;
+use App\Entity\Partner;
+use App\Entity\Structure;
+use App\Repository\AdminRepository;
+use App\Repository\PartnerRepository;
+use App\Repository\StructureRepository;
 use App\Form\AdminType;
-use App\Form\PartenaireType;
+use App\Form\PartnerType;
 use App\Form\StructureType;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
@@ -103,8 +103,8 @@ class RegistrationController extends AbstractController
 
     #[Route('/change_password/{id}', name: 'app_change_password')]
     public function changePassword(
-        FitnesspPartenaire $partner = null,
-        FitnesspStructure $structure = null,
+        Partner $partner = null,
+        Structure $structure = null,
         Request $request, 
         UserPasswordHasherInterface $userPasswordHasher, 
         ManagerRegistry $doctrine,
@@ -116,8 +116,8 @@ class RegistrationController extends AbstractController
             : $user = &$structure;
 
         $form_type = isset($partner)
-            ? new FitnesspPartenaire()
-            : new FitnesspStructure();
+            ? new Partner()
+            : new Structure();
 
         $form = isset($partner)
             ? $this->createForm(PartenaireType::class, $form_type)
@@ -133,7 +133,7 @@ class RegistrationController extends AbstractController
                     $form->get('mot_de_passe')->getData()
                 )
             );
-            $user->setPremiereConnexion(1);
+            // $user->setPremiereConnexion(1);
 
             $entityManager = $doctrine->getManager();
             $entityManager->persist($user);

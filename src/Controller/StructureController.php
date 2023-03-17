@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\FitnesspStructure;
+use App\Entity\Structure;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +14,7 @@ class StructureController extends AbstractController
 {
     #[Route('/{id}', name: 'app_structure_profile')]
     public function structureProfile(
-        FitnesspStructure $structure = null,
+        Structure $structure = null,
         Request $request,
         ManagerRegistry $doctrine
         ): Response
@@ -28,13 +28,13 @@ class StructureController extends AbstractController
             $perm ='';
 
             if($_POST['id'] == 'perm_boissons') {
-                $structure->setPermBoissons($statut);
+                $structure->setDrinksPermission($statut);
                 $perm ='boissons';
             } else if($_POST['id'] == 'perm_planning') {
-                $structure->setPermPlanning($statut);
+                $structure->setPlanningPermission($statut);
                 $perm ='planning';
             } else if($_POST['id'] == 'perm_newsletter') {
-                $structure->setPermNewsletter($statut);
+                $structure->setNewsletterPermission($statut);
                 $perm ='newsletter';
             }
 
@@ -56,13 +56,13 @@ class StructureController extends AbstractController
         }
 
         return $this->render('structure/s_profile.html.twig', [
-            'mailPartner' => htmlspecialchars($structure->getMailPartenaire()),
-            'address' => htmlspecialchars($structure->getAdresse()),
+            'cityPartner' => htmlspecialchars($structure->getCity()),
+            'address' => htmlspecialchars($structure->getAddress()),
             'mail' => htmlspecialchars($structure->getMail()),
-            'rightsLevel' => htmlspecialchars($structure->getNiveauDroits()),
-            'permDrinks' => htmlspecialchars($structure->getPermBoissons()),
-            'permPlanning' => htmlspecialchars($structure->getPermPlanning()),
-            'permNewsletter' => htmlspecialchars($structure->getPermNewsletter()),
+            'rightsLevel' => htmlspecialchars($structure->getRights()),
+            'permDrinks' => htmlspecialchars($structure->getDrinksPermission()),
+            'permPlanning' => htmlspecialchars($structure->getPlanningPermission()),
+            'permNewsletter' => htmlspecialchars($structure->getNewsletterPermission()),
         ]);
     }
 }

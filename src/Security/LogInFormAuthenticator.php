@@ -53,7 +53,7 @@ class LogInFormAuthenticator extends AbstractLoginFormAuthenticator
                 return new RedirectResponse($this->urlGenerator->generate('app_partners_controllerapp_partners'));
         }
         
-        if ($user->getPremiereConnexion() == 1) {
+        // if ($user->getPremiereConnexion() == 1) {
 
             if (in_array('ROLE_PARTNER', $user->getRoles(), true)) {
                 return new RedirectResponse($this->urlGenerator->generate(
@@ -66,14 +66,14 @@ class LogInFormAuthenticator extends AbstractLoginFormAuthenticator
                     "id" => $request->get('email')
                 ]));
             }
-        }
+        /*}
         else
         {
             return new RedirectResponse($this->urlGenerator->generate(
                     'app_change_password', [
                     "id" => $request->get('email')
                 ]));
-        }
+        }*/
         
     }
         // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);

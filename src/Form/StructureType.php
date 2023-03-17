@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\FitnesspStructure;
+use App\Entity\Structure;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,22 +12,22 @@ class StructureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('mail_partenaire')
-            ->add('adresse')
             ->add('mail')
-            ->add('mot_de_passe')
-            ->add('niveau_droits')
-            ->add('premiere_connexion')
-            ->add('perm_boissons')
-            ->add('perm_planning')
-            ->add('perm_newsletter')
+            ->add('password')
+            ->add('rights')
+            ->add('drinks_permission')
+            ->add('newsletter_permission')
+            ->add('planning_permission')
+            ->add('address')
+            ->add('brand_name')
+            ->add('city')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => FitnesspStructure::class,
+            'data_class' => Structure::class,
         ]);
     }
 }

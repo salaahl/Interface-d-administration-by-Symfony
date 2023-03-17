@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Fitnessp;
-use App\Entity\FitnesspAdmin;
-use App\Entity\FitnesspPartenaire;
-use App\Entity\FitnesspStructure;
-use App\Repository\FitnesspRepository;
+use App\Entity\Admin;
+use App\Entity\Brand;
+use App\Entity\Partner;
+use App\Entity\Structure;
 use App\Form\AdminType;
 use App\Form\PartenaireType;
 use App\Form\StructureType;
-use App\Repository\FitnesspPartenaireRepository;
+use App\Repository\BrandRepository;
+use App\Repository\PartnerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,44 +19,51 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
+use App\Service\ServiceController;
+use Symfony\Component\Mailer\Mailer;
 
 class UserCreateController extends AbstractController
 {
     #[Route('/user/create/admin', name: 'app_user_create_admin')]
     public function createAdmin(
-        FitnesspRepository $brandRepository,
+        BrandRepository $brandRepository,
         ManagerRegistry $doctrine,
         Request $request
         ): Response
     {
                 
-        $admin = new FitnesspAdmin();
+        $admin = new Admin();
         $form = $this->createForm(AdminType::class, $admin);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) 
         {
-            $brand = $brandRepository->find('FitnessP');
+            $brand = $brandRepository->findOneBy( ['name' => 'FitnessP']);
 
             if(!isset($brand)) {
-                $new_brand = new Fitnessp();
-                $new_brand->setMarque('FitnessP');
+                $new_brand = new Brand();
+                $new_brand->setName('FitnessP');
+
+                $entityManager = $doctrine->getManager();
+                $entityManager->persist($new_brand);
+                $entityManager->flush();
             }
 
             $mail = $_POST['admin']['mail'];
-            $password = password_hash($_POST['admin']['mot_de_passe'], PASSWORD_DEFAULT);
+            $password = password_hash($_POST['admin']['password'], PASSWORD_DEFAULT);
+            $brand = $brandRepository->findOneBy( ['name' => 'FitnessP']);
 
-            $admin->setMarque('FitnessP');
+            $admin->setBrandName($brand);
             $admin->setMail($mail);
-            $admin->setMotDePasse($password);
-            $admin->setNiveauDroits(3);
+            $admin->setPassword($password);
+            $admin->setRights(3);
 
             $entityManager = $doctrine->getManager();
             $entityManager->persist($admin);
             $entityManager->flush();
 
-            return new Response('Utilisateur ajouté !');
+            return new Response('Administrateur enregistré.');
         }
         
         return $this->render('user_create/admin.html.twig', [
@@ -68,12 +75,13 @@ class UserCreateController extends AbstractController
     public function createPartner(
         ManagerRegistry $doctrine, 
         Request $request,
-        MailerInterface $mailer
+        MailerInterface $mailer,
+        ServiceController $serviceController
         ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
-        $partner = new FitnesspPartenaire();
+        $partner = new Partner();
         $form = $this->createForm(PartenaireType::class, $partner);
         $form->handleRequest($request);
 
@@ -83,84 +91,17 @@ class UserCreateController extends AbstractController
             $password = password_hash($_POST['partenaire']['mot_de_passe'], PASSWORD_DEFAULT);
             $name = $_POST['partenaire']['nom'];
 
-            $partner->setMarque('FitnessP');
-            $partner->setNom($name);
+            $partner->setBrandName('FitnessP');
+            $partner->setCity($name);
             $partner->setMail($mail);
-            $partner->setMotDePasse($password);
-            $partner->setNiveauDroits(2);
-            $partner->setPremiereConnexion(0);
-            $partner->setNombreDeStructures(0);
+            $partner->setPassword($password);
+            $partner->setRights(2);
 
             $entityManager = $doctrine->getManager();
             $entityManager->persist($partner);
             $entityManager->flush();
 
-            // Logique d'envoi des mails de confirmation
-            $mailConfirmation =
-            "
-            <html lang='fr'>
-                <head>
-                    <meta charset='utf-8'>
-                    <meta name='viewport' content='width=device-width'>
-                    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx' crossorigin='anonymous'>
-                    
-                    <style>
-                    body
-                    {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                    }
-                    table
-                    {
-                        width: 50vw;
-                        border: 1rem solid highlight;
-                        background-color: lightgray;
-                    }
-                    th
-                    {
-                        background-color: gray;
-                    }
-                    td
-                    {
-                        border: 1px solid gray;
-                    }
-                    </style>
-                
-                </head>
-                <body>
-                    <table>
-                    <thead>
-                        <tr>
-                        <th colspan='2'>Bienvenue sur Fitness P !</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan='2'>
-                                Bonjour partenaire de " . htmlspecialchars($name) . ",<br>
-                                Voici vos identifiants de connexion. Notez que le mot de passe n'est valable que pour la première connexion. 
-                                Il devra être changé lors de la première connexion au site.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>mail :</td>
-                            <td>" . htmlspecialchars($mail) . "</td>
-                        </tr>
-                        <tr>
-                            <td>mot de passe :</td>
-                            <td>" . htmlspecialchars($password) . "</td>
-                        </tr>
-                        <tr>
-                            <td colspan='2'><a href='https://ecf-salaha.herokuapp.com/login.html' class='btn btn-primary'>Se connecter</a></td>
-                        </tr>
-                    </tbody>
-                    </table>
-                    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous'></script>
-                </body>
-            </html>";
-
-            // Etape 2 : envoyer un mail...
+            // Envoyer un mail...
             // Initialisation des données. Méthode de récup différente selon l'environnemment
             $from_email =
             $_SERVER["SERVER_NAME"] == "127.0.0.1:8000"
@@ -178,7 +119,7 @@ class UserCreateController extends AbstractController
             ->from(new Address($from_email, $from_name))
             ->to($to_email)
             ->subject('Vos identifiants')
-            ->html($mailConfirmation);
+            ->html($serviceController->mailConfirmation('partenaire de ' . $name, $mail, $password));
 
             $mailer->send($email);
 
@@ -192,16 +133,18 @@ class UserCreateController extends AbstractController
 
     #[Route('/user/create/structure', name: 'app_user_create_structure')]
     public function createStructure(
-        FitnesspPartenaireRepository $partnerRepository, 
+        PartnerRepository $partnerRepository, 
         ManagerRegistry $doctrine, 
-        Request $request
+        Request $request,
+        Mailer $mailer,
+        ServiceController $serviceController
         ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         
         $partners = $partnerRepository->findAll();
 
-        $structure = new FitnessPStructure();
+        $structure = new Structure();
         $form = $this->createForm(StructureType::class, $structure);
         $form->handleRequest($request);
 
@@ -215,17 +158,37 @@ class UserCreateController extends AbstractController
             $password = password_hash($_POST['structure']['mot_de_passe'], PASSWORD_DEFAULT);
             $adresse = $_POST['structure']['adresse'];
 
-            $structure->setMailPartenaire($partner->getMail());
+            $structure->setCity($partner->getCity());
             $structure->setMail($mail);
-            $structure->setMotDePasse($password);
-            $structure->setAdresse($adresse);
-            $structure->setNiveauDroits(1);
-            $structure->setPremiereConnexion(0);
-            $partner->setNombreDeStructures(+1);
+            $structure->setPassword($password);
+            $structure->setAddress($adresse);
+            $structure->setRights(1);
 
             $entityManager = $doctrine->getManager();
             $entityManager->persist($structure, $partner);
             $entityManager->flush();
+
+            // Envoyer un mail...
+            // Initialisation des données. Méthode de récup différente selon l'environnemment
+            $from_email =
+            $_SERVER["SERVER_NAME"] == "127.0.0.1:8000"
+            ? $_ENV['FROM_EMAIL']
+            : getenv("FROM_EMAIL");
+
+            $from_name =
+            $_SERVER["SERVER_NAME"] == "127.0.0.1:8000"
+            ? $_ENV['FROM_NAME']
+            : getenv("FROM_NAME");
+
+            $to_email = $_SERVER["SERVER_NAME"] == "127.0.0.1:8000" ? $_ENV['TO_EMAIL'] : $mail;
+
+            $email = (new Email())
+            ->from(new Address($from_email, $from_name))
+            ->to($to_email)
+            ->subject('Vos identifiants')
+            ->html($serviceController->mailConfirmation('structure du ' . $adresse, $mail, $password));
+
+            $mailer->send($email);
 
             return new Response('Utilisateur ajouté !');
         }

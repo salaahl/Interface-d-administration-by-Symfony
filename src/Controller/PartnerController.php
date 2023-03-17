@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\FitnesspPartenaire;
-use App\Repository\FitnesspPartenaireRepository;
+use App\Entity\Partner;
+use App\Repository\PartnerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class PartnerController extends AbstractController
 {
     #[Route('/', name: 'app_partners')]
-    public function partnersList(FitnesspPartenaireRepository $partnerRepository, Request $request): Response
+    public function partnersList(PartnerRepository $partnerRepository, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
@@ -29,10 +29,10 @@ class PartnerController extends AbstractController
 
         foreach($stmt as $partner)
         {   
-            $city[] = htmlspecialchars($partner->getNom());
+            $city[] = htmlspecialchars($partner->getCity());
             $mail[] = htmlspecialchars($partner->getMail());
-            $rights_level[] = htmlspecialchars($partner->getNiveauDroits());
-            $number_structures[] = htmlspecialchars($partner->getNombreDeStructures());
+            $rights_level[] = htmlspecialchars($partner->getRights());
+            $number_structures[] = htmlspecialchars('mettre ici le nombre de structures');
         }
 
         $partners['city'] = $city;
@@ -47,7 +47,7 @@ class PartnerController extends AbstractController
     }
 
     #[Route('/find', name: 'app_partners_find')]
-    public function partnersFind(FitnesspPartenaireRepository $partnerRepository,
+    public function partnersFind(PartnerRepository $partnerRepository,
     Request $request,
     ManagerRegistry $doctrine): Response
     {
@@ -68,8 +68,8 @@ class PartnerController extends AbstractController
             // Peut aussi s'écrire : WHERE nom LIKE ? || '%'
             $partnersFound = $db
             ->prepare(
-                "SELECT nom, mail, niveau_droits, nombre_de_structures
-                FROM fitnessp_partenaire
+                "SELECT city, mail, rights
+                FROM partner
                 WHERE nom LIKE CONCAT(?, '%')
                 LIMIT 3"
             )
@@ -78,10 +78,10 @@ class PartnerController extends AbstractController
 
             foreach($partnersFound as $partner)
             {
-                $city[] = htmlspecialchars($partner['nom']);
+                $city[] = htmlspecialchars($partner['city']);
                 $mail[] = htmlspecialchars($partner['mail']);
-                $rights_level[] = htmlspecialchars($partner['niveau_droits']);
-                $number_structures[] = htmlspecialchars($partner['nombre_de_structures']);
+                $rights_level[] = htmlspecialchars($partner['rights']);
+                $number_structures[] = htmlspecialchars('nombre de structures ici');
             }
 
             $reponse['city'] = $city;
@@ -92,9 +92,7 @@ class PartnerController extends AbstractController
             return new JsonResponse($reponse);
         }
 
-        return $this->render('partner/p_find.html.twig', [
-            'partners' => 'return',
-        ]);
+        return $this->render('partner/p_find.html.twig');
     }
 
     /*
@@ -104,7 +102,7 @@ class PartnerController extends AbstractController
     */
     #[Route('/{id}', name: 'app_partner_profile')]
     public function partnerProfile(
-        FitnesspPartenaire $partner = null,
+        Partner $partner = null,
         Request $request,
         ManagerRegistry $doctrine
         ): Response
@@ -118,16 +116,16 @@ class PartnerController extends AbstractController
             $perm ='';
 
             if($_POST['id'] == 'perm_boissons') {
-                $partner->setPermBoissons($statut);
+                $partner->setDrinksPermission($statut);
                 $perm ='boissons';
             } else if($_POST['id'] == 'perm_planning') {
-                $partner->setPermPlanning($statut);
+                $partner->setPlanningPermission($statut);
                 $perm ='planning';
             } else if($_POST['id'] == 'perm_newsletter') {
-                $partner->setPermNewsletter($statut);
+                $partner->setNewsletterPermission($statut);
                 $perm ='newsletter';
             } else if($_POST['id'] == 'statut_partner') {
-                $partner->setNiveauDroits(
+                $partner->setRights(
                     $_POST['statut_toggle'] == 'true' ? 2 : 0
                 );
                 $perm ='statut du partenaire';
@@ -159,20 +157,20 @@ class PartnerController extends AbstractController
 
         $stmt = $db
             ->prepare(
-                "SELECT adresse, s.mail, mail_partenaire
-                FROM FitnessP_Structure s
-                JOIN FitnessP_Partenaire p
-                ON s.mail_partenaire = p.mail
-                WHERE s.mail_partenaire = ?"
+                "SELECT address, s.mail, city
+                FROM Structure s
+                JOIN Partner p
+                ON s.city = p.city
+                WHERE s.city = ?"
             )
             ->executeQuery([$partner->getMail()])
             ->fetchAllAssociative();
 
         foreach($stmt as $structure)
         {
-            $s_adresse[] = htmlspecialchars($structure['adresse']);
+            $s_adresse[] = htmlspecialchars($structure['address']);
             $s_mail[] = htmlspecialchars($structure['mail']);
-            $s_mail_partenaire[] = htmlspecialchars($structure['mail_partenaire']);
+            $s_mail_partenaire[] = htmlspecialchars($structure['city']);
         }
 
         $structures['address'] = $s_adresse;
@@ -180,12 +178,12 @@ class PartnerController extends AbstractController
         $structures['mail_partenaire'] = $s_mail_partenaire;
 
         return $this->render('partner/p_profile.html.twig', [
-            'nom' => htmlspecialchars($partner->getNom()),
+            'nom' => htmlspecialchars($partner->getCity()),
             'mail' => htmlspecialchars($partner->getMail()),
-            'niveauDroits' => htmlspecialchars($partner->getNiveauDroits()),
-            'permBoissons' => htmlspecialchars($partner->getPermBoissons()),
-            'permPlanning' => htmlspecialchars($partner->getPermPlanning()),
-            'permNewsletter' => htmlspecialchars($partner->getPermNewsletter()),
+            'niveauDroits' => htmlspecialchars($partner->getRights()),
+            'permBoissons' => htmlspecialchars($partner->getDrinksPermission()),
+            'permPlanning' => htmlspecialchars($partner->getPlanningPermission()),
+            'permNewsletter' => htmlspecialchars($partner->getNewsletterPermission()),
             'structures' => $structures,
         ]);
     }

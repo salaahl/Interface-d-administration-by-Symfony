@@ -7,17 +7,17 @@ security:
     providers:
         app_partner_provider:
             entity:
-                class: App\Entity\FitnesspPartenaire
+                class: App\Entity\Partner
                 property: mail
 
         app_structure_provider:
             entity:
-                class: App\Entity\FitnesspStructure
+                class: App\Entity\Structure
                 property: mail
 
         app_admin_provider:
             entity:
-                class: App\Entity\FitnesspAdmin
+                class: App\Entity\Admin
                 property: mail
 
         all_users:

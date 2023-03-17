@@ -2,24 +2,29 @@
 
 namespace App\Controller;
 
-use App\Entity\Fitnessp;
-use App\Entity\FitnesspAdmin;
-use App\Entity\FitnesspPartenaire;
-use App\Entity\FitnesspStructure;
-use App\Repository\FitnesspAdminRepository;
-use App\Repository\FitnesspPartenaireRepository;
-use App\Repository\FitnesspStructureRepository;
+use App\Entity\Brand;
+use App\Entity\Admin;
+use App\Entity\Partner;
+use App\Entity\Structure;
+use App\Repository\AdminRepository;
+use App\Repository\PartnerRepository;
+use App\Repository\StructureRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Service\ServiceController;
 
 class CrudController extends AbstractController
 {
     /**
      * @Route("/read")
      */
-    public function read(ManagerRegistry $doctrine, FitnesspAdminRepository $adminRepository, FitnesspPartenaireRepository $partnerRepository, FitnesspStructureRepository $structureRepository): Response
+    public function read(ManagerRegistry $doctrine, 
+    AdminRepository $adminRepository, 
+    PartnerRepository $partnerRepository, 
+    StructureRepository $structureRepository,
+    ServiceController $serviceMail): Response
     {
         // Retourne un tableau avec tous les users en base de données
         $adminAll = $adminRepository->findAll();
@@ -80,7 +85,9 @@ class CrudController extends AbstractController
         $reponse['rights_level'] = $rights_level;
         $reponse['number_structures'] = $number_structures;
 
-        return new Response(var_dump($_SERVER["SERVER_NAME"]));
+        $name = "Paris";
+
+        return new Response(var_dump($serviceMail->mailConfirmation('partenaire de ' . $name, "paramètre deux", "paramètre trois")));
     }
 
     /**
