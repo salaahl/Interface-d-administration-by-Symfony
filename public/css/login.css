@@ -5,7 +5,7 @@
 
   .logo {
     width: 50% !important;
-    border-right: none!important;
+    border-right: none !important;
   }
 
   .section {
@@ -32,7 +32,7 @@ body {
   margin-top: -10%;
 }
 
-.sous_section {
+.sous-section {
   height: 100%;
   padding: 2%;
   display: flex;
@@ -45,7 +45,7 @@ body {
   border-right: 1px solid black;
 }
 
-.sous_section > .row {
+.sous-section > .row {
   justify-content: space-evenly;
   align-items: center;
 }

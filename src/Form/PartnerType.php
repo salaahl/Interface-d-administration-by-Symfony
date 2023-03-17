@@ -19,7 +19,7 @@ class PartnerType extends AbstractType
             ->add('drinks_permission')
             ->add('newsletter_permission')
             ->add('planning_permission')
-            ->add('brand_name')
+            //->add('brand_name')
         ;
     }
 

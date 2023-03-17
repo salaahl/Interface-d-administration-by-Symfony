@@ -19,7 +19,7 @@ class StructureType extends AbstractType
             ->add('newsletter_permission')
             ->add('planning_permission')
             ->add('address')
-            ->add('brand_name')
+            //->add('brand_name')
             ->add('city')
         ;
     }

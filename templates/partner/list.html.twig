@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Liste des partenaires
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('css/partners.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block body %}
+	{{ parent() }}
+	<main>
+		<h1 class="display-6">Liste de mes partenaires</h1>
+		<!-- Switch des actifs -->
+		<div class="form-check form-switch">
+			<input type="checkbox" role="switch" class="form-check-input" id="partners-active"/>
+			<label class="form-check-label" for="partners-active">Actifs uniquement</label>
+		</div>
+		<div class="partner-add">
+			<a href="../new/partner.php">
+				Ajouter un nouveau partenaire
+			</a>
+		</div>
+		<div id="partners-list">
+			{% for partner in partners %}
+				<div class="partner-card col-12 col-xl-5">
+					<div class="about">
+						<div>{{ partner.city }}</div>
+						<div>{{ partner.mail }}</div>
+						<div>Nombre de structures : 0</div>
+						{% if partner.rights == 2 %}
+							<div class="active px-2">Partenaire activé</div>
+						{% else %}
+							<div class="inactive px-2">Partenaire désactivé</div>
+						{% endif %}
+					</div>
+					<div class="link">
+						<a href="partner.php?city={{ partner.city }}">Détails</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/ajax/partners.js') }}"></script>
+{% endblock %}

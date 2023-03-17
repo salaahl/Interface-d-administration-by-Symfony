@@ -1,44 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter une structure{% endblock %}
+{% block title %}Ajouter une structure
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('css/add_user.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
 
 {% block body %}
-{% apply inline_css(source('@css/create_user.css')) %}
+	<div class="container">
+		<form>
+			<h2 class="formTitle">
+				Ajouter une nouvelle structure :
+			</h2>
 
-  <div class="container">
-    <form method="POST">
+			<div class="inputDiv">
+				<label class="inputLabel" for="city">Partenaire affilié :</label>
+				<select class="form-select" id="city" name="city" required>
+					<option selected disabled>Ville</option>
+				</select>
+			</div>
 
-      <h2 class="formTitle">
-        Ajouter une nouvelle structure :
-      </h2>
+			<div class="inputDiv">
+				<label class="inputLabel" for="address">Adresse de la structure :</label>
+				<input type="text" id="address" name="address" required>
+			</div>
 
-      <div class="inputDiv">
-        <label class="inputLabel">Partenaire affilié :</label>
-        <select id="partenaire" class="form-select" name="partenaire" required>
-          <option selected disabled>Ville</option>
-          {% for partner in partners %}
-          <option>{{partner.nom}}</option>
-          {%endfor%}
-        </select>
-      </div>
+			<div class="inputDiv">
+				<label class="inputLabel" for="structure-mail">Entrez votre mail :</label>
+				<input type="email" id="structure-mail" name="structure_mail" required>
+			</div>
+			<button type="submit" class="btn btn-dark">Valider</button>
+			<input type="hidden" name="structure_new" value="new"/>
+		</form>
+	</div>
+{% endblock %}
 
-      <div class="inputDiv">
-        <label class="inputLabel">Adresse de la structure :</label>
-        {{ form_widget(form.adresse) }}
-      </div>
-
-      <div class="inputDiv">
-        <label class="inputLabel">Entrez un mail :</label>
-        {{ form_widget(form.mail) }}
-      </div>
-
-      <div class="inputDiv">
-        <label class="inputLabel">Entrez un mot de passe :</label>
-        {{ form_widget(form.mot_de_passe) }}
-      </div>
-
-      <button type="submit" class="btn btn-dark">Valider</button>
-    </form>
-  </div>
-{% endapply %}
+{% block javascripts %}
+	{{ parent() }}
+  <script src="{{ asset('js/ajax/structure_new.js') }}"></script>
 {% endblock %}

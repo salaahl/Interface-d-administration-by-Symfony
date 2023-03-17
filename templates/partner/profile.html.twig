@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Page d'un partenaire
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('css/partner.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block body %}
+	{{ parent() }}
+	<main>
+		<div class="en-tete">
+			<div id="city">
+				<h1 class="display-6">Partenaire :
+					{{ partner.city }}
+				</h1>
+			</div>
+			<div id="mail">Mail :
+				{{ partner.mail }}
+			</div>
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="partner-status form-check form-switch">
+					<label class="form-check-label" for="partner-status">Partenaire actif :
+					</label>
+					<input type="checkbox" role="switch" class="form-check-input" id="partner-status" {{ partner.rights == 2 ? 'checked' : '' }}/>
+				</div>
+				<div class="partner-delete">
+					<form action="/" method="POST">
+						<input type="hidden" id="delete-user" name="partner_delete" value="{{ partner.mail }}"/>
+						<button class="btn btn-danger" type="submit" onclick="return confirm('Etes-vous sûr ? Cette action est irréversible.')">
+							Supprimer ce partenaire
+						</button>
+					</form>
+				</div>
+			{% endif %}
+		</div>
+		<div class="label-structures">
+			<h3>Mes structures</h3>
+		</div>
+		<div id="structures">
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="structure">
+					<a href="../new/structure.php" style="text-align: center;">
+						<h4>Ajouter une structure</h4>
+					</a>
+				</div>
+			{% endif %}
+			{% for structure in structures %}
+				<div class="structure">
+					<a href="./structure.php?structure_mail={{ structure.mail }}&city={{ structure.city }}">
+						<div class="structure-address">{{ structure.address }}</div>
+						<div class="structure-mail">{{ structure.mail }}</div>
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+		<!-- Permissions globales -->
+		<div class="permissions">
+			<h6>Permissions globales :
+			</h6>
+			<!-- Switch 1 -->
+			<div class="form-check form-switch">
+				<input type="checkbox" role="switch" class="form-check-input toggle" id="drinks-permission" name="drinks_permission" {{ partner.drinks_permission == 1 ? 'checked' : '' }}/>
+				<label class="form-check-label" for="drinks_permission">Vente de boissons</label>
+			</div>
+			<!-- Switch 2 -->
+			<div class="form-check form-switch">
+				<input type="checkbox" role="switch" class="form-check-input toggle" id="newsletter-permission" name="newsletter_permission" {{ partner.newsletter_permission == 1 ? 'checked' : '' }}/>
+				<label class="form-check-label" for="newsletter_permission">Envoyer une newsletter</label>
+			</div>
+			<!-- Switch 3 -->
+			<div class="form-check form-switch">
+				<input type="checkbox" role="switch" class="form-check-input toggle" id="planning-permission" name="planning_permission" {{ partner.planning_permission == 1 ? 'checked' : '' }}/>
+				<label class="form-check-label" for="planning_permission">Gérer le planning d'une équipe</label>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/ajax/partner.js') }}"></script>
+	<script src="{{ asset('js/ajax/partner_status.js') }}"></script>
+	<script src="{{ asset('js/ajax/partner_toggle.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,135 @@
+@media only screen and (max-width: 576px) {
+
+  .nav-item svg {
+    margin-right: 10%;
+    width: 150%;
+    height: 150%;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+
+  #sidebar {
+    position: fixed;
+    width: 0%;
+    transition: width .25s;
+  }
+
+  .navbar-toggler {
+    position: fixed;
+    top: 2%;
+    right: 1%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+    width: 3rem;
+    background-color: gray;
+    border-radius: 50px;
+  }
+
+  .justify-sidebar-content {
+    justify-content: space-between;
+  }
+
+  .menu-text {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+
+  aside {
+    width: 20%;
+  }
+
+  #sidebar {
+    width: inherit;
+  }
+
+  .justify-sidebar-content {
+    justify-content: center;
+  }
+
+  .collapse:not(.show) {
+    display: block!important;
+  }
+
+  .navbar-toggler {
+    display: none;
+  }
+
+  .menu-text {
+    font-weight: bold;
+  }
+}
+
+
+#sidebar {
+  position: fixed;
+}
+
+#sidebar.show {
+  width: 40%;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.logo {
+  width: 3em;
+  border-radius: 50px;
+  border: 2px solid black;
+}
+
+.label {
+  margin-left: 1rem;
+  font-size: 1em;
+}
+
+#sidebar-content {
+  position: sticky;
+  top: 0;
+  font-weight: bold;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10%;
+}
+
+.sous-menu {
+  padding-left: 20%;
+}
+
+.nav-text {
+  padding-left: 10%;
+}
+
+svg {
+  margin-right: 10%;
+}
+
+.dropdown {
+  padding: 10%;
+  border-radius: 10px;
+  background-color: black;
+  margin: 10%;
+}
+
+.dropdown-item {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 10px;
+}

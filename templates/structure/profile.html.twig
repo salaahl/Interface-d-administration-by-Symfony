@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Page d'une structure
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('css/structure.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block body %}
+	{{ parent() }}
+	<main>
+		<a href="./{{ structure.city }}" id="back-partner-page">
+			<svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewbox="0 0 16 16">
+				<path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+			</svg>
+		</a>
+		<div class="en-tete">
+			<div>
+				<h1 id="city" class="display-6">Structure du partenaire :
+					{{ structure.city }}</h1>
+			</div>
+			<div id="structure-mail">Mail :
+				{{ structure.mail }}</div>
+			<div id="structure-address">Adresse :
+				{{ structure.address }}</div>
+			<div class="structure-status form-check form-switch">
+				<label class="form-check-label" for="structure-status">Structure actif :
+				</label>
+				<input type="checkbox" role="switch" class="form-check-input" id="structure-status" {{ structure.rights == 2 ? 'checked' : '' }}/>
+			</div>
+			<div class="structure-delete">
+				<form action="/" method="POST">
+					<input type="hidden" id="structure-delete" name="structure_delete" value="{{ structure.mail }}"/>
+					<input type="hidden" id="structure-city" name="structure_city" value="{{ structure.city }}"/>
+					<button class="btn btn-danger" type="submit" onclick="return confirm(
+							                'Etes-vous sûr ? Cette action est irréversible.'
+							              )">
+						Supprimer cette structure
+					</button>
+				</form>
+			</div>
+
+		</div>
+		<!-- Permissions globales -->
+		<div class="permissions">
+			<h6>Permissions de la structure :
+			</h6>
+			<!-- Switch 1 -->
+			<div class="form-check form-switch">
+				<input type="checkbox" role="switch" class="form-check-input toggle" id="drinks-permission" name="drinks_permission" {{ structure.drinks_permission == 1 ? 'checked' : '' }}/>
+				<label class="form-check-label" for="drinks_permission">Vente de boissons</label>
+			</div>
+			<!-- Switch 2 -->
+			<div class="form-check form-switch">
+				<input type="checkbox" role="switch" class="form-check-input toggle" id="newsletter-permission" name="newsletter_permission" {{ structure.newsletter_permission == 1 ? 'checked' : '' }}/>
+				<label class="form-check-label" for="newsletter_permission">Envoyer une newsletter</label>
+			</div>
+			<!-- Switch 3 -->
+			<div class="form-check form-switch">
+				<input type="checkbox" role="switch" class="form-check-input toggle" id="planning-permission" name="planning_permission" {{ structure.planning_permission == 1 ? 'checked' : '' }}/>
+				<label class="form-check-label" for="planning_permission">Gérer le planning d'une équipe</label>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/ajax/structure.js') }}"></script>
+	<script src="{{ asset('js/ajax/structure_status.js') }}"></script>
+	<script src="{{ asset('js/ajax/structure_toggle.js') }}"></script>
+{% endblock %}

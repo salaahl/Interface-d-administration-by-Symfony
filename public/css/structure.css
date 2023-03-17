@@ -1,0 +1,102 @@
+@media only screen and (max-width: 991px) {
+  #back-partner-page {
+    top: 2%;
+    left: 1%;
+  }
+
+  #back-partner-page > svg {
+    height: 3rem;
+    width: 3rem;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  #back-partner-page {
+    top: 3%;
+    left: 21%;
+  }
+}
+
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+body {
+  display: flex;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  width: 100%;
+}
+
+#back-partner-page {
+  position: fixed;
+}
+
+.en-tete {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  height: 40%;
+  width: 80%;
+  border-radius: 20px;
+  padding: 1%;
+  background-color: lightgrey;
+  margin-top: 2%;
+}
+
+#city {
+  grid-row-start: 1;
+}
+
+#structure-mail {
+  grid-row-start: 2;
+}
+
+#structure-address {
+  grid-row-start: 3;
+}
+
+.structure-delete {
+  grid-row-start: 4;
+  display: flex;
+  justify-content: center;
+}
+
+.structure-delete button {
+  height: 70%;
+}
+
+.structure-status {
+  grid-row-start: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px;
+  padding: 1%;
+  background-color: darkgray;
+}
+
+.permissions {
+  display: flex;
+  flex-direction: column;
+  height: 40%;
+  width: 80%;
+  padding: 5%;
+  border-radius: 20px;
+  background-color: gray;
+  justify-content: space-evenly;
+}
+
+.permissions > h6 {
+  grid-row: 1;
+}
+
+.permissions > .form-switch {
+  grid-row: 2;
+}

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Recherche d'un partenaire
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('css/partner_search.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block body %}
+	{{ parent() }}
+	<main class="ui-widget">
+		<h1 class="display-6">Rechercher un partenaire :</h1>
+		<input id="search-bar" placeholder="Rechercher un partenaire">
+		<div id="search-result"></div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+	<script src="{{ asset('js/ajax/partner_search.js') }}"></script>
+{% endblock %}

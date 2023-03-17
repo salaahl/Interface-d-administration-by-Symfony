@@ -1,26 +1,36 @@
-@media only screen and (min-width: 1100px) {
-  .liste_part {
-    width: 48%;
-  }
-}
+@media only screen and (max-width: 991px) {
 
-@media only screen and (max-width: 1099px) {
-  .liste_part {
+  main {
     width: 100%;
   }
+
+}
+
+@media only screen and (min-width: 992px) {
+
+  #partners-list .col-xl-5 {
+    width: 48%;
+  }
+
+  aside .col-lg-3 {
+    flex: auto;
+  }
+
+  main {
+    width: 80%;
+  }
+
 }
 
 body {
-  width: 99%;
-  margin: 0%;
+  display: flex;
 }
 
-.switch_des_actifs {
-  margin-top: 5%;
-  margin-bottom: 3%;
+main {
+  padding: 1%;
 }
 
-.ajouter_partenaire {
+.partner-add {
   display: flex;
   justify-content: center;
   background-color: lightgrey;
@@ -30,8 +40,13 @@ body {
   border-radius: 5px;
 }
 
-/* Liste des partenaires */
-.liste_part {
+#partners-list {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.partner-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -42,19 +57,8 @@ body {
   border-radius: 5px;
 }
 
-/* CONTENEUR de la liste dynamique des partenaires */
-#liste_part {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.resultat_part {
-  padding: 20% !important;
-}
-
-.part_actif,
-.part_non_actif {
+.active,
+.inactive {
   display: inline-block;
   margin-top: 2%;
   margin-bottom: 2%;
@@ -63,20 +67,20 @@ body {
   font-weight: bold;
 }
 
-.part_actif {
+.active {
   background-color: green;
 }
-.part_non_actif {
+.inactive {
   background-color: darkred;
 }
 
-.infos_part {
+.about {
   display: inline-block;
   height: 100%;
   width: 70%;
 }
 
-.lien {
+.link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,7 +92,7 @@ body {
   background-color: gray;
 }
 
-.lien:hover {
+.link:hover {
   background-color: black;
 }
 

@@ -1,34 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter un partenaire{% endblock %}
+{% block title %}Ajouter un partenaire
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('css/add_user.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
 
 {% block body %}
-{% apply inline_css(source('@css/create_user.css')) %}
+	<div class="container">
+		<form>
 
-  <div class="container">
-    <form method="POST">
+			<h2 class="formTitle">
+				Ajouter un nouveau partenaire :
+			</h2>
 
-      <h2 class="formTitle">
-        Ajouter un nouveau partenaire :
-      </h2>
+			<div class="inputDiv">
+				<label class="inputLabel" for="partner-city">Nom de la ville :</label>
+				<input type="text" id="partner-city" name="partner_city"/>
+			</div>
 
-      <div class="inputDiv">
-        <label class="inputLabel">Nom de la ville :</label>
-        {{ form_widget(form.nom) }}
-      </div>
+			<div class="inputDiv">
+				<label class="inputLabel" for="partner-mail">Entrez votre mail :</label>
+				<input type="email" id="partner-mail" name="partner_mail"/>
+			</div>
 
-      <div class="inputDiv">
-        <label class="inputLabel">Entrez un mail :</label>
-        {{ form_widget(form.mail) }}
-      </div>
+			<button type="submit" class="btn btn-dark">Valider</button>
+			<input type="hidden" name="partner_new" value="new"/>
+		</form>
+	</div>
+{% endblock %}
 
-      <div class="inputDiv">
-        <label class="inputLabel">Entrez un mot de passe :</label>
-        {{ form_widget(form.mot_de_passe) }}
-      </div>
-
-      <button type="submit" class="btn btn-dark">Valider</button>
-    </form>
-  </div>
-{% endapply %}
+{% block javascripts %}
+	{{ parent() }}
+  <script src="{{ asset('js/ajax/partner_new.js') }}"></script>
 {% endblock %}

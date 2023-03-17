@@ -7,7 +7,7 @@ use App\Entity\Brand;
 use App\Entity\Partner;
 use App\Entity\Structure;
 use App\Form\AdminType;
-use App\Form\PartenaireType;
+use App\Form\PartnerType;
 use App\Form\StructureType;
 use App\Repository\BrandRepository;
 use App\Repository\PartnerRepository;
@@ -79,10 +79,10 @@ class UserCreateController extends AbstractController
         ServiceController $serviceController
         ): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        //$this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
 
         $partner = new Partner();
-        $form = $this->createForm(PartenaireType::class, $partner);
+        $form = $this->createForm(PartnerType::class, $partner);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -136,11 +136,11 @@ class UserCreateController extends AbstractController
         PartnerRepository $partnerRepository, 
         ManagerRegistry $doctrine, 
         Request $request,
-        Mailer $mailer,
+        MailerInterface $mailer,
         ServiceController $serviceController
         ): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        //$this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         
         $partners = $partnerRepository->findAll();
 
